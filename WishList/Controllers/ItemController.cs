@@ -16,11 +16,10 @@ namespace WishList.Controllers
             _context = context;
         }
 
-        public IActionResult Index(List<Item> itemlist)
+        public IActionResult Index()
         {
-            //itemlist = _context.Items.ToList();
-            //return View("Index",itemlist);
-            return View();
+            var model = _context.Items.ToList();
+            return View("Index",model);
         }
 
         [HttpGet]
@@ -37,11 +36,10 @@ namespace WishList.Controllers
             return RedirectToAction("Index");
         }
 
-        [HttpDelete]
-        public IActionResult Delete(int Id)
+        public IActionResult Delete(int id)
         {
-            var items = _context.Items.Find(Id);
-            _context.Items.Remove(items);
+            var item = _context.Items.FirstOrDefault(e=> e.Id == id);
+            _context.Items.Remove(item);
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
